@@ -14,8 +14,8 @@ import es.upm.dit.isst.pcg13.dao.model.User;
 import com.google.gson.*;
 
 
-@WebServlet("/RegistroServlet")
-public class RegistroServlet extends HttpServlet {
+@WebServlet("/LoginServlet")
+public class LoginServlet extends HttpServlet {
 	
 @Override
 protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -23,24 +23,18 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
 	String nick = req.getParameter("nick");
 	String password = req.getParameter("password");
 	System.out.println(nick+" "+password);
-	User exist = UserDAOImplementation.getInstance().getUser(nick);
-	String hello;
-	if (exist != null) {
-		hello = "already exist";
-		
-	}
-	else {
-	User user = new User();
-	user.setNick(nick);
-	user.setPassword(password);
+	User user = null;
 	//persistimos el dato
-	UserDAOImplementation.getInstance().createUser(user);
-	hello = "hello from server";
-	}
+	user = UserDAOImplementation.getInstance().loginUser(nick, password);
 	resp.setContentType("application/json");
 	resp.setCharacterEncoding("utf-8");
-	
-	String json =new  Gson().toJson(hello);
+	String json;
+	if (user == null) {
+	json =new  Gson().toJson("wrong");
+	}
+	else {
+	json =new  Gson().toJson("ok");	
+	}
 	resp.getWriter().write(json);
 	
 	
