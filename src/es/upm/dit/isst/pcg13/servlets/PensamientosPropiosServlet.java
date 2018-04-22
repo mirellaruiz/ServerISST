@@ -17,22 +17,26 @@ import es.upm.dit.isst.pcg13.dao.PensamientoDAOImplementation;
 import es.upm.dit.isst.pcg13.dao.UserDAOImplementation;
 import es.upm.dit.isst.pcg13.dao.model.Pensamiento;
 import es.upm.dit.isst.pcg13.dao.model.User;
-@WebServlet("/PensamientosCercanosServlet")
-public class PensamientosCercanosServlet extends HttpServlet {
+@WebServlet("/PensamientosPropiosServlet")
+public class PensamientosPropiosServlet extends HttpServlet {
 @Override
 protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	Double lat=Double.parseDouble(req.getParameter("lat"));
-	Double lon = Double.parseDouble(req.getParameter("lon"));
+	
+	String nickname = req.getParameter("nick");
 
 
-	List<Pensamiento> cercanos = null;
-	cercanos = PensamientoDAOImplementation.getInstance().readNearest(lat, lon);
+	List<Pensamiento> propios = null;
+	propios = PensamientoDAOImplementation.getInstance().readAll(nickname);
+	
+	//propios = PensamientoDAOImplementation.getInstance().getPensamientos(nickname);
 	resp.setContentType("application/json");
 	resp.setCharacterEncoding("utf-8");
 	JsonArray jsonA = new JsonArray();
-	for (Pensamiento pens: cercanos) {
+	if (propios.size() > 0) {
+	for (Pensamiento pens: propios) {
 	JsonObject j = new JsonObject();
 	j.addProperty("id", String.valueOf(pens.getIdPens()));
+	
 	j.addProperty("date", pens.getDate().toString());
 	
 	j.addProperty("latitude", String.valueOf(pens.getLatitude()));
@@ -45,7 +49,7 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
 	j.addProperty("autor", pens.getAuthor().getNick());
 	jsonA.add(j);
 	}
-	
+	}
 	String json;
 	json =new  Gson().toJson(jsonA);	
 	System.out.println(json);

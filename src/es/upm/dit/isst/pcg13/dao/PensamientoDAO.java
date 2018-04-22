@@ -12,5 +12,6 @@ public interface PensamientoDAO {
 	public void deletePensamiento(Pensamiento pensamiento);
 	public List<Pensamiento> readNearest(double lat, double lon);
 	public int getLastId();
-	void drop();
+	public void drop();
+	public List<Pensamiento> readAll(String nick);
 }

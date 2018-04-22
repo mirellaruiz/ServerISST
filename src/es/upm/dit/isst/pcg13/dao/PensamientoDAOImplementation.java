@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.Session;
 
 import es.upm.dit.isst.pcg13.dao.model.Pensamiento;
+import es.upm.dit.isst.pcg13.dao.model.User;
 import es.upm.dit.isst.pcg13.utils.Utils;
 public class PensamientoDAOImplementation implements PensamientoDAO{
 	
@@ -127,7 +128,27 @@ public class PensamientoDAOImplementation implements PensamientoDAO{
 		}
 		
 	}
-
+@Override
+public List<Pensamiento> readAll(String nick){
+	Session session = SessionFactoryService.get().openSession();
+	List<Pensamiento> pensamientos = new ArrayList<>();
+	try {
+		session.beginTransaction();
+		pensamientos.addAll( session.createQuery("select p from Pensamiento p where p.author.nick = :nick")
+						.setParameter("nick", nick)			
+				.list());
+		session.getTransaction().commit();			
+	} catch (Exception e) {
+		
+	} finally {
+		for (Pensamiento p: pensamientos) {
+			System.out.println(p.getText());
+		}
+		session.close();
+		
+	}
+	return pensamientos;
+}
 	@Override
 	public void drop() {
 
@@ -144,6 +165,7 @@ public class PensamientoDAOImplementation implements PensamientoDAO{
 		}
 		
 	}
+
 	
 
 }

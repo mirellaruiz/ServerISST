@@ -1,6 +1,11 @@
 package es.upm.dit.isst.pcg13.dao;
 
+import es.upm.dit.isst.pcg13.dao.model.Pensamiento;
 import es.upm.dit.isst.pcg13.dao.model.User;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.Session;
 public class UserDAOImplementation implements UserDAO {
 	
@@ -98,6 +103,26 @@ public class UserDAOImplementation implements UserDAO {
 			}
 			return user;
 		}
+		@Override
+		public List<Pensamiento> readGuardados (String nickname){
+			List<Pensamiento> pensamientos = new ArrayList<>();
+			Session session = SessionFactoryService.get().openSession();
+			try {
+				session.beginTransaction();
+				pensamientos.addAll(session.createQuery("select u.guardados from User u " + 
+				"where u.nick = :nick")
+					.setParameter("nick", nickname)
+					.list());
+				session.getTransaction().commit();
+			}
+			catch (Exception e){
+				System.out.println(e);
+			}finally {
+				session.close();
+			}
+			return pensamientos;
+		}
+		
 		
 	}
 
