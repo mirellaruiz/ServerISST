@@ -16,9 +16,13 @@ import com.google.gson.*;
 
 @WebServlet("/RegistroServlet")
 public class RegistroServlet extends HttpServlet {
-	
+
 @Override
+protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+/*
 protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+*/
 	// TODO Auto-generated method stub
 	String nick = req.getParameter("nick");
 	String password = req.getParameter("password");
@@ -27,7 +31,7 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
 	String hello;
 	if (exist != null) {
 		hello = "already exist";
-		
+
 	}
 	else {
 	User user = new User();
@@ -39,12 +43,12 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
 	}
 	resp.setContentType("application/json");
 	resp.setCharacterEncoding("utf-8");
-	
+
 	String json =new  Gson().toJson(hello);
 	resp.getWriter().write(json);
-	
-	
-	
-}	
+
+
+
+}
 
 }
