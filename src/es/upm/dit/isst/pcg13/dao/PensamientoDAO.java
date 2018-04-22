@@ -10,4 +10,7 @@ public interface PensamientoDAO {
 	public Pensamiento readPensamiento (int idPens);
 	public void updatePensamiento(Pensamiento pensamiento);
 	public void deletePensamiento(Pensamiento pensamiento);
+	public List<Pensamiento> readNearest(double lat, double lon);
+	public int getLastId();
+	void drop();
 }

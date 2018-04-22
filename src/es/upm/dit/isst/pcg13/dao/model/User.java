@@ -19,18 +19,18 @@ public class User {
 	private String twitter;
 	@OneToMany(mappedBy = "author", fetch = FetchType.EAGER)//relacion para BBDD
 	private List<Pensamiento> pensamientosPropios; 
-	@ManyToMany(cascade = {CascadeType.ALL})
+	@ManyToMany(cascade = {CascadeType.ALL},  fetch = FetchType.EAGER)
 	@JoinTable(name="Guardados", joinColumns= {@JoinColumn (name="nick")}, inverseJoinColumns= {@JoinColumn(name="idPens")})
 	private List<Pensamiento> guardados;
-	@ManyToMany(cascade = {CascadeType.ALL})
+	@ManyToMany(cascade = {CascadeType.ALL},  fetch = FetchType.EAGER)
 	@JoinTable(name="Valorados", joinColumns= {@JoinColumn (name="nick")}, inverseJoinColumns= {@JoinColumn(name="idPens")})
 	private List<Pensamiento> valorados;
 	
-	@ManyToMany(cascade = {CascadeType.ALL})
+	@ManyToMany(cascade = {CascadeType.ALL},  fetch = FetchType.EAGER)
 	@JoinTable(name="Amigos", joinColumns= {@JoinColumn (name="myNick")}, inverseJoinColumns= {@JoinColumn(name="nickFriend")})
 	private List<User> myFriends;
 	
-	@ManyToMany(cascade = {CascadeType.ALL}, mappedBy="myFriends")
+	@ManyToMany(cascade = {CascadeType.ALL}, mappedBy="myFriends",  fetch = FetchType.EAGER)
 	private List<User> friendsWithMe;
 
 	public String getNick() {

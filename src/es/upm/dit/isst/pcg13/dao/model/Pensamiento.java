@@ -1,14 +1,14 @@
 package es.upm.dit.isst.pcg13.dao.model;
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 import javax.persistence.*;
-import javax.persistence.ManyToOne;
 
 @Entity
 public class Pensamiento {
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int idPens;
 	@ManyToOne
 	private User author;
@@ -17,9 +17,9 @@ public class Pensamiento {
 	private Date date;
 	private float latitude;
 	private float longitude;
-	@ManyToMany(cascade = {CascadeType.ALL}, mappedBy="guardados")
+	@ManyToMany(cascade = {CascadeType.ALL}, mappedBy="guardados", fetch = FetchType.EAGER)
 	private List<User> userGuardan;
-	@ManyToMany(cascade = {CascadeType.ALL}, mappedBy="valorados")
+	@ManyToMany(cascade = {CascadeType.ALL}, mappedBy="valorados",  fetch = FetchType.EAGER)
 	private List<User> userValoran;
 	public int getIdPens() {
 		return idPens;
@@ -48,8 +48,8 @@ public class Pensamiento {
 	public Date getDate() {
 		return date;
 	}
-	public void setDate(Date date) {
-		this.date = date;
+	public void setDate(Date fecha) {
+		this.date = fecha;
 	}
 	public float getLatitude() {
 		return latitude;

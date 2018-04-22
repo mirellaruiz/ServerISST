@@ -21,7 +21,7 @@ import es.upm.dit.isst.pcg13.dao.model.User;
 public class LoginServlet extends HttpServlet {
 
 @Override
-protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 /*
 protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 */

@@ -18,7 +18,7 @@ import com.google.gson.*;
 public class RegistroServlet extends HttpServlet {
 
 @Override
-protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 /*
 protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
