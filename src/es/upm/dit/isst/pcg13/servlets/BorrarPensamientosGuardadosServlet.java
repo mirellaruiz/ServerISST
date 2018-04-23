@@ -18,21 +18,27 @@ import es.upm.dit.isst.pcg13.dao.UserDAOImplementation;
 import es.upm.dit.isst.pcg13.dao.model.Pensamiento;
 import es.upm.dit.isst.pcg13.dao.model.User;
 
-@WebServlet("/BorrarPensamientosPropiosServlet")
-public class BorrarPensamientosPropiosServlet extends HttpServlet {
-	
+
+@WebServlet("/BorrarPensamientosGuardadosServlet")
+public class BorrarPensamientosGuardadosServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	
 		String nickname = req.getParameter("nick");
 		int id = Integer.parseInt(req.getParameter("pensId"));
 		User user = UserDAOImplementation.getInstance().getUser(nickname);
 		resp.setContentType("application/json");
 		resp.setCharacterEncoding("utf-8");
-		if(PensamientoDAOImplementation.getInstance().pensamientoEsPropio(id)) {
-			PensamientoDAOImplementation.getInstance().deletePensamiento(id);
-			
+		Pensamiento aBorrar = PensamientoDAOImplementation.getInstance().readPensamiento(id);
+		if(PensamientoDAOImplementation.getInstance().pensamientoEstaGuardado(id)) {
+			List<Pensamiento> guardados = user.getGuardados();
+			guardados.remove(aBorrar);
+			user.setGuardados(guardados);
+			//PensamientoDAOImplementation.getInstance().deletePensamiento(id);
+			//este ultimo comando no se hace porque solo se elimina la lista del usuario, no la base de datos
 			resp.getWriter().write("ok");
 		}
 		resp.getWriter().write("no se ha borrado nada");
-	}	
+	
+	}
 }
