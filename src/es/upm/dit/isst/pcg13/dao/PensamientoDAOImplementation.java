@@ -48,9 +48,53 @@ public class PensamientoDAOImplementation implements PensamientoDAO{
 			
 		} finally {
 			session.close();
-			return id;
+			
 		}
+		return id;
 		
+	}
+	
+	@Override
+	public boolean pensamientoEsPropio(int idPens){
+		
+		boolean result = false;
+		Session session = SessionFactoryService.get().openSession();//Se abre la sesion
+		try {
+			session.beginTransaction();
+			//Hay que valorar  si el comando SQL es el correcto.
+			result = (session.createQuery("select u.pensamientosPropios from User u where u.id = :id").setParameter("id", idPens).uniqueResult()!=null);
+			System.out.println("El pensamiento con ID "+idPens+ "es un pensamiento propio");
+			session.getTransaction().commit();
+		}
+		catch(Exception e) {
+			
+		} finally {
+			session.close();
+			
+		}
+		return result;
+		
+	}
+	
+	@Override
+	public boolean pensamientoEstaGuardado(int idPens){
+		
+		boolean result = false;
+		Session session = SessionFactoryService.get().openSession();//Se abre la sesion
+		try {
+			session.beginTransaction();
+			//Hay que valorar  si el comando SQL es el correcto.
+			result = (session.createQuery("select u.guardados from User u where u.id = :id").setParameter("id", idPens).uniqueResult()!=null);
+			System.out.println("El pensamiento con ID "+idPens+ "esta guardado");
+			session.getTransaction().commit();
+		}
+		catch(Exception e) {
+			
+		} finally {
+			session.close();
+			
+		}
+		return result;
 		
 	}
 
@@ -113,12 +157,13 @@ public class PensamientoDAOImplementation implements PensamientoDAO{
 	}
 
 	@Override
-	public void deletePensamiento(Pensamiento pensamiento) {
-
+	public void deletePensamiento(int idPens) {
+		Pensamiento pens = null;
 		Session session = SessionFactoryService.get().openSession();
 		try {
 			session.beginTransaction();
-			session.delete(pensamiento);
+			pens = session.get(Pensamiento.class, idPens);
+			session.delete(pens);
 			session.getTransaction().commit();
 		}
 		catch(Exception e) {
