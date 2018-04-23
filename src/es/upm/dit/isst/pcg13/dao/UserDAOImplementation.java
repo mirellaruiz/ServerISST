@@ -123,6 +123,26 @@ public class UserDAOImplementation implements UserDAO {
 			return pensamientos;
 		}
 		
+		@Override
+		public List<User> readContactos (String nickname){
+			List<User> contactos = new ArrayList<>();
+			Session session = SessionFactoryService.get().openSession();
+			try {
+				session.beginTransaction();
+				//No sé si la createquery es la correcta
+				contactos.addAll(session.createQuery("select u.myFriends from User u " + 
+				"where u.nick = :nick")
+					.setParameter("nick", nickname)
+					.list());
+				session.getTransaction().commit();
+			}
+			catch (Exception e){
+				System.out.println(e);
+			}finally {
+				session.close();
+			}
+			return contactos;
+		}
 		
 	}
 

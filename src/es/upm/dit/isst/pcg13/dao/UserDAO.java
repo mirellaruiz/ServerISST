@@ -11,7 +11,7 @@ public interface UserDAO {
 	public void updateUser (User user);
 	public void deleteUser (User user);
 	public List<Pensamiento> readGuardados (String nickname);
-	
+	public List<User> readContactos (String nickname);
 	public User loginUser(String nick, String password);
 
 }
