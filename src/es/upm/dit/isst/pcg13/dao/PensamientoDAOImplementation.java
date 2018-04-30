@@ -77,14 +77,15 @@ public class PensamientoDAOImplementation implements PensamientoDAO{
 	}
 	
 	@Override
-	public boolean pensamientoEstaGuardado(int idPens){
+	public boolean pensamientoEstaGuardado(int idPens, String nick){
 		
 		boolean result = false;
 		Session session = SessionFactoryService.get().openSession();//Se abre la sesion
 		try {
 			session.beginTransaction();
 			//Hay que valorar  si el comando SQL es el correcto.
-			result = (session.createQuery("select u.guardados from User u where u.id = :id").setParameter("id", idPens).uniqueResult()!=null);
+			//Sin acabar
+			result = (session.createQuery("select u.guardados from User u where u.nick = :nick").setParameter("nick", nick).uniqueResult()!=null);
 			System.out.println("El pensamiento con ID "+idPens+ "esta guardado");
 			session.getTransaction().commit();
 		}

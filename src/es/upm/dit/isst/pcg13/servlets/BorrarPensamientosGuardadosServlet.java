@@ -30,15 +30,30 @@ public class BorrarPensamientosGuardadosServlet extends HttpServlet {
 		resp.setContentType("application/json");
 		resp.setCharacterEncoding("utf-8");
 		Pensamiento aBorrar = PensamientoDAOImplementation.getInstance().readPensamiento(id);
-		if(PensamientoDAOImplementation.getInstance().pensamientoEstaGuardado(id)) {
+		//if(PensamientoDAOImplementation.getInstance().pensamientoEstaGuardado(id)) {
 			List<Pensamiento> guardados = user.getGuardados();
-			guardados.remove(aBorrar);
-			user.setGuardados(guardados);
+			//resp.getWriter().write(String.valueOf(guardados.contains(aBorrar)));
+			for (int i = 0 ; i < guardados.size(); i++) {
+				if(guardados.get(i).getIdPens() == aBorrar.getIdPens()) {
+					guardados.remove(i);
+					
+					user.setGuardados(guardados);
+					UserDAOImplementation.getInstance().updateUser(user);
+					
+					resp.getWriter().write("ok");
+					
+					return;
+
+				}
+
+			}
+			
+			
 			//PensamientoDAOImplementation.getInstance().deletePensamiento(id);
 			//este ultimo comando no se hace porque solo se elimina la lista del usuario, no la base de datos
-			resp.getWriter().write("ok");
-		}
+			//resp.getWriter().write("ok");
+		//} else {
 		resp.getWriter().write("no se ha borrado nada");
-	
+		//}
 	}
 }
