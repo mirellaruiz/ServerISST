@@ -1,6 +1,8 @@
 package es.upm.dit.isst.pcg13.dao;
 
 import java.sql.PseudoColumnUsage;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.hibernate.Session;
 
@@ -65,8 +67,27 @@ public class ValoracionDAOImplementation implements ValoracionDAO{
 		
 	}
 	@Override
-	public boolean comprobarValoracion(User user, Pensamiento pens) {
-		boolean exist = false;
+	public List<Pensamiento> getPensamientosValorados (User user) {
+		List<Pensamiento> pens = new ArrayList<>();
+			Session session = SessionFactoryService.get().openSession();//Se abre la sesion
+		try {
+			session.beginTransaction();
+			pens.addAll(session.createQuery("select v.pensamiento from Valoracion v where v.author.nick = :nick and v.valor = :valor").setParameter("valor", true).list());
+			session.getTransaction().commit();
+		}
+		catch(Exception e) {
+			
+		} finally {
+			session.close();
+			
+		}
+		return pens;
+	
+	}
+
+	
+	@Override
+	public Valoracion getValoracion(User user, Pensamiento pens) {
 		Valoracion valoracion = new Valoracion();
 		Session session = SessionFactoryService.get().openSession();//Se abre la sesion
 		try {
@@ -78,9 +99,9 @@ public class ValoracionDAOImplementation implements ValoracionDAO{
 			
 		} finally {
 			session.close();
-			exist = (valoracion!=null);
+			
 		}
-		return exist;
+		return valoracion;
 	
 	}
 

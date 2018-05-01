@@ -3,6 +3,7 @@ package es.upm.dit.isst.pcg13.dao;
 import java.util.List;
 
 import es.upm.dit.isst.pcg13.dao.model.Pensamiento;
+import es.upm.dit.isst.pcg13.dao.model.User;
 
 public interface PensamientoDAO {
 
@@ -10,9 +11,8 @@ public interface PensamientoDAO {
 	public Pensamiento readPensamiento (int idPens);
 	public void updatePensamiento(Pensamiento pensamiento);
 	public void deletePensamiento(int idPens);
-	public List<Pensamiento> readNearest(double lat, double lon, double dis);
+	public List<Pensamiento> readNearest(double lat, double lon, double dis, User user);
 	public boolean pensamientoEsPropio (int idPens);
-	public boolean pensamientoEstaGuardado (int idPens, String nick);
 	public int getLikes(Pensamiento pensamiento);
 	public int getDislikes(Pensamiento pensamiento);
 	public int getLastId();

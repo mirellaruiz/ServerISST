@@ -103,25 +103,7 @@ public class UserDAOImplementation implements UserDAO {
 			}
 			return user;
 		}
-		@Override
-		public List<Pensamiento> readGuardados (String nickname){
-			List<Pensamiento> pensamientos = new ArrayList<>();
-			Session session = SessionFactoryService.get().openSession();
-			try {
-				session.beginTransaction();
-				pensamientos.addAll(session.createQuery("select u.guardados from User u " + 
-				"where u.nick = :nick")
-					.setParameter("nick", nickname)
-					.list());
-				session.getTransaction().commit();
-			}
-			catch (Exception e){
-				System.out.println(e);
-			}finally {
-				session.close();
-			}
-			return pensamientos;
-		}
+		
 		
 		@Override
 		public List<User> readContactos (String nickname){

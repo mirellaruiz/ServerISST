@@ -24,9 +24,10 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
 	Double lat=Double.parseDouble(req.getParameter("lat"));
 	Double lon = Double.parseDouble(req.getParameter("lon"));
 	Double dis = Double.parseDouble(req.getParameter("dist"));
+	User user = UserDAOImplementation.getInstance().getUser(req.getParameter("nick"));
 
 	List<Pensamiento> cercanos = null;
-	cercanos = PensamientoDAOImplementation.getInstance().readNearest(lat, lon, dis);
+	cercanos = PensamientoDAOImplementation.getInstance().readNearest(lat, lon, dis, user);
 	resp.setContentType("application/json");
 	resp.setCharacterEncoding("utf-8");
 	JsonArray jsonA = new JsonArray();

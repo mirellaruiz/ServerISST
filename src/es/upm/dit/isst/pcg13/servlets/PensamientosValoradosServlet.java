@@ -15,18 +15,19 @@ import com.google.gson.JsonObject;
 
 import es.upm.dit.isst.pcg13.dao.PensamientoDAOImplementation;
 import es.upm.dit.isst.pcg13.dao.UserDAOImplementation;
+import es.upm.dit.isst.pcg13.dao.ValoracionDAOImplementation;
 import es.upm.dit.isst.pcg13.dao.model.Pensamiento;
 import es.upm.dit.isst.pcg13.dao.model.User;
-@WebServlet("/PensamientosGuardadosServlet")
-public class PensamientosGuardadosServlet extends HttpServlet {
+@WebServlet("/PensamientosValoradosServlet")
+public class PensamientosValoradosServlet extends HttpServlet {
 @Override
 protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	
 	String nickname = req.getParameter("nick");
-
+	User user = UserDAOImplementation.getInstance().getUser(nickname);
 
 	List<Pensamiento> guardados = null;
-	guardados = UserDAOImplementation.getInstance().readGuardados(nickname);
+	guardados = ValoracionDAOImplementation.getInstance().getPensamientosValorados(user);
 	
 	//propios = PensamientoDAOImplementation.getInstance().getPensamientos(nickname);
 	resp.setContentType("application/json");

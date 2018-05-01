@@ -77,28 +77,6 @@ public class PensamientoDAOImplementation implements PensamientoDAO{
 		
 	}
 	
-	@Override
-	public boolean pensamientoEstaGuardado(int idPens, String nick){
-		
-		boolean result = false;
-		Session session = SessionFactoryService.get().openSession();//Se abre la sesion
-		try {
-			session.beginTransaction();
-			//Hay que valorar  si el comando SQL es el correcto.
-			//Sin acabar
-			result = (session.createQuery("select u.guardados from User u where u.nick = :nick").setParameter("nick", nick).uniqueResult()!=null);
-			System.out.println("El pensamiento con ID "+idPens+ "esta guardado");
-			session.getTransaction().commit();
-		}
-		catch(Exception e) {
-			
-		} finally {
-			session.close();
-			
-		}
-		return result;
-		
-	}
 
 	@Override
 	public Pensamiento readPensamiento(int idPens) {
@@ -119,7 +97,7 @@ public class PensamientoDAOImplementation implements PensamientoDAO{
 
 
 	@Override
-	public List<Pensamiento> readNearest(double lat, double lon, double dis) {
+	public List<Pensamiento> readNearest(double lat, double lon, double dis, User user) {
 		List<Pensamiento> pensamientos = new ArrayList<>();
 		List<Pensamiento> cercanos = new ArrayList<>();
 		Session session = SessionFactoryService.get().openSession();
@@ -134,8 +112,15 @@ public class PensamientoDAOImplementation implements PensamientoDAO{
 		} finally {
 			session.close();
 			for (Pensamiento pensamiento: pensamientos) {
-				if (Utils.distance(lat, lon, Double.valueOf(pensamiento.getLatitude()),Double.valueOf(pensamiento.getLongitude())) < dis) {
-					System.out.println(pensamiento.getAuthor());
+				boolean valoradoLike = false;
+				for(Valoracion val: pensamiento.getValoraciones()) {
+					if (val.getAuthor().getNick() ==user.getNick()) {
+						valoradoLike = true;
+						break;
+					}
+				}
+				if (pensamiento.getAuthor().getNick() != user.getNick() && !valoradoLike && Utils.distance(lat, lon, Double.valueOf(pensamiento.getLatitude()),Double.valueOf(pensamiento.getLongitude())) < dis) {
+					
 					cercanos.add(pensamiento);
 				}
 			}
@@ -262,6 +247,7 @@ public List<Pensamiento> readAll(String nick){
 			}
 			return dislikes;
 		}
+	
 
 	
 
