@@ -7,6 +7,7 @@ import org.hibernate.Session;
 
 import es.upm.dit.isst.pcg13.dao.model.Pensamiento;
 import es.upm.dit.isst.pcg13.dao.model.User;
+import es.upm.dit.isst.pcg13.dao.model.Valoracion;
 import es.upm.dit.isst.pcg13.utils.Utils;
 public class PensamientoDAOImplementation implements PensamientoDAO{
 	
@@ -211,6 +212,56 @@ public List<Pensamiento> readAll(String nick){
 		}
 		
 	}
+	@Override
+	public int getLikes(Pensamiento pensamiento) {
+		Session session = SessionFactoryService.get().openSession();
+		List<Valoracion> valorados = new ArrayList<>();
+		int likes = 0;
+		try {
+			
+			session.beginTransaction();
+			valorados.addAll(session.createQuery("select p.valoraciones from Pensamiento p where p.idPens = :idPens").setParameter("idPens", pensamiento.getIdPens()).list());
+			session.getTransaction().commit();
+			for (Valoracion val: valorados) {
+				if (val.getValor() == true){
+					likes++;
+				}
+			}
+		}
+		catch(Exception e) {
+			
+		} finally {
+			session.close();
+		
+			}
+			return likes;
+		}
+		
+	
+	@Override
+	public int getDislikes(Pensamiento pensamiento) {
+		Session session = SessionFactoryService.get().openSession();
+		List<Valoracion> valorados = new ArrayList<>();
+		int dislikes = 0;
+		try {
+			
+			session.beginTransaction();
+			valorados.addAll(session.createQuery("select p.valoraciones from Pensamiento p where p.idPens = :idPens").setParameter("idPens", pensamiento.getIdPens()).list());
+			session.getTransaction().commit();
+			for (Valoracion val: valorados) {
+				if (val.getValor() == false){
+					dislikes++;
+				}
+			}
+		}
+		catch(Exception e) {
+			
+		} finally {
+			session.close();
+		
+			}
+			return dislikes;
+		}
 
 	
 

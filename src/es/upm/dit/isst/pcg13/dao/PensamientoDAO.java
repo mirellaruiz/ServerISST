@@ -13,6 +13,8 @@ public interface PensamientoDAO {
 	public List<Pensamiento> readNearest(double lat, double lon);
 	public boolean pensamientoEsPropio (int idPens);
 	public boolean pensamientoEstaGuardado (int idPens, String nick);
+	public int getLikes(Pensamiento pensamiento);
+	public int getDislikes(Pensamiento pensamiento);
 	public int getLastId();
 	public void drop();
 	public List<Pensamiento> readAll(String nick);

@@ -19,8 +19,18 @@ public class Pensamiento {
 	private float longitude;
 	@ManyToMany(cascade = {CascadeType.ALL}, mappedBy="guardados", fetch = FetchType.EAGER)
 	private List<User> userGuardan;
-	@ManyToMany(cascade = {CascadeType.ALL}, mappedBy="valorados",  fetch = FetchType.EAGER)
-	private List<User> userValoran;
+	@OneToMany(mappedBy = "pensamiento", fetch = FetchType.EAGER)//relacion para BBDD
+	private List<Valoracion> valoraciones; 
+	
+	public List<Valoracion> getValoraciones() {
+		return valoraciones;
+	}
+	public void setValoraciones(List<Valoracion> valoraciones) {
+		this.valoraciones = valoraciones;
+	}
+	private float likes;
+	private float dislikes;
+	
 	public int getIdPens() {
 		return idPens;
 	}
@@ -69,11 +79,18 @@ public class Pensamiento {
 	public void setUserGuardan(List<User> userGuardan) {
 		this.userGuardan = userGuardan;
 	}
-	public List<User> getUserValoran() {
-		return userValoran;
+	
+	public float getDislikes() {
+		return dislikes;
 	}
-	public void setUserValoran(List<User> userValoran) {
-		this.userValoran = userValoran;
+	public void setDislikes(float dislikes) {
+		this.dislikes = dislikes;
+	}
+	public float getLikes() {
+		return likes;
+	}
+	public void setLikes(float likes) {
+		this.likes = likes;
 	}
 	
 	

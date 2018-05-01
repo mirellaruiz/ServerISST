@@ -19,12 +19,13 @@ public class User {
 	private String twitter;
 	@OneToMany(mappedBy = "author", fetch = FetchType.EAGER)//relacion para BBDD
 	private List<Pensamiento> pensamientosPropios; 
+	
+	@OneToMany(mappedBy = "author", fetch = FetchType.EAGER)//relacion para BBDD
+	private List<Valoracion> valorados; 
+
 	@ManyToMany(cascade = {CascadeType.ALL},  fetch = FetchType.EAGER)
 	@JoinTable(name="Guardados", joinColumns= {@JoinColumn (name="nick")}, inverseJoinColumns= {@JoinColumn(name="idPens")})
 	private List<Pensamiento> guardados;
-	@ManyToMany(cascade = {CascadeType.ALL},  fetch = FetchType.EAGER)
-	@JoinTable(name="Valorados", joinColumns= {@JoinColumn (name="nick")}, inverseJoinColumns= {@JoinColumn(name="idPens")})
-	private List<Pensamiento> valorados;
 	
 	@ManyToMany(cascade = {CascadeType.ALL},  fetch = FetchType.EAGER)
 	@JoinTable(name="Amigos", joinColumns= {@JoinColumn (name="myNick")}, inverseJoinColumns= {@JoinColumn(name="nickFriend")})
@@ -82,11 +83,11 @@ public class User {
 		this.guardados = guardados;
 	}
 
-	public List<Pensamiento> getValorados() {
+	public List<Valoracion> getValorados() {
 		return valorados;
 	}
 
-	public void setValorados(List<Pensamiento> valorados) {
+	public void setValorados(List<Valoracion> valorados) {
 		this.valorados = valorados;
 	}
 

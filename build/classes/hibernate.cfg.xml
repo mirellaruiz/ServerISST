@@ -18,6 +18,7 @@
 		<mapping class="es.upm.dit.isst.pcg13.dao.model.Pensamiento" />
 		
 		<mapping class="es.upm.dit.isst.pcg13.dao.model.User" />
+		<mapping class="es.upm.dit.isst.pcg13.dao.model.Valoracion" />
 	</session-factory>
 </hibernate-configuration>
                        
