@@ -1,4 +1,4 @@
-package es.upm.dit.isst.pcg13.servlets;
+/*package es.upm.dit.isst.pcg13.servlets;
 
 import java.io.IOException;
 import java.util.List;
@@ -37,9 +37,9 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
 	
 	resp.getWriter().write("ok");
 	
-	/* ESTO ES UNA PRUEBA DE OTRA FORMA DE MANDAR UN JSON*/
+	
 	 
 	 
 }
-}
+}*/
 

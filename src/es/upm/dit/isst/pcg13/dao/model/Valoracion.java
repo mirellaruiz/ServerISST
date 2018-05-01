@@ -15,7 +15,7 @@ public class Valoracion {
 	@ManyToOne
 	private Pensamiento pensamiento;
 	
-	
+	@org.hibernate.annotations.Type(type="true_false")
 	private boolean valor;
 
 	public int getIdVal() {
@@ -47,7 +47,7 @@ public class Valoracion {
 	}
 
 	public void setValor(boolean like) {
-		this.valor = valor;
+		this.valor = like;
 	}
 	
 	

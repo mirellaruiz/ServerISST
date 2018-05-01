@@ -1,4 +1,4 @@
-package es.upm.dit.isst.pcg13.servlets;
+/*package es.upm.dit.isst.pcg13.servlets;
 
 import java.io.IOException;
 import java.util.List;
@@ -56,4 +56,4 @@ public class BorrarPensamientosGuardadosServlet extends HttpServlet {
 		resp.getWriter().write("no se ha borrado nada");
 		//}
 	}
-}
+}*/

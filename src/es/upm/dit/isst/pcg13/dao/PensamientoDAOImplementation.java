@@ -119,7 +119,7 @@ public class PensamientoDAOImplementation implements PensamientoDAO{
 
 
 	@Override
-	public List<Pensamiento> readNearest(double lat, double lon) {
+	public List<Pensamiento> readNearest(double lat, double lon, double dis) {
 		List<Pensamiento> pensamientos = new ArrayList<>();
 		List<Pensamiento> cercanos = new ArrayList<>();
 		Session session = SessionFactoryService.get().openSession();
@@ -134,7 +134,7 @@ public class PensamientoDAOImplementation implements PensamientoDAO{
 		} finally {
 			session.close();
 			for (Pensamiento pensamiento: pensamientos) {
-				if (Utils.distance(lat, lon, Double.valueOf(pensamiento.getLatitude()),Double.valueOf(pensamiento.getLongitude())) < 20) {
+				if (Utils.distance(lat, lon, Double.valueOf(pensamiento.getLatitude()),Double.valueOf(pensamiento.getLongitude())) < dis) {
 					System.out.println(pensamiento.getAuthor());
 					cercanos.add(pensamiento);
 				}

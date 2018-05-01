@@ -10,7 +10,7 @@ public interface PensamientoDAO {
 	public Pensamiento readPensamiento (int idPens);
 	public void updatePensamiento(Pensamiento pensamiento);
 	public void deletePensamiento(int idPens);
-	public List<Pensamiento> readNearest(double lat, double lon);
+	public List<Pensamiento> readNearest(double lat, double lon, double dis);
 	public boolean pensamientoEsPropio (int idPens);
 	public boolean pensamientoEstaGuardado (int idPens, String nick);
 	public int getLikes(Pensamiento pensamiento);

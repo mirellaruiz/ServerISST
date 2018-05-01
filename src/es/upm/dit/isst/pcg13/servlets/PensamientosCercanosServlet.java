@@ -23,10 +23,10 @@ public class PensamientosCercanosServlet extends HttpServlet {
 protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	Double lat=Double.parseDouble(req.getParameter("lat"));
 	Double lon = Double.parseDouble(req.getParameter("lon"));
-
+	Double dis = Double.parseDouble(req.getParameter("dist"));
 
 	List<Pensamiento> cercanos = null;
-	cercanos = PensamientoDAOImplementation.getInstance().readNearest(lat, lon);
+	cercanos = PensamientoDAOImplementation.getInstance().readNearest(lat, lon, dis);
 	resp.setContentType("application/json");
 	resp.setCharacterEncoding("utf-8");
 	JsonArray jsonA = new JsonArray();
