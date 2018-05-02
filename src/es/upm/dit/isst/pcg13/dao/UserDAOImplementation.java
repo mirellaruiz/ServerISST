@@ -50,6 +50,23 @@ public class UserDAOImplementation implements UserDAO {
 		}
 		return user;
 	}
+	
+	@Override
+	public List<Pensamiento> getPropios(String nick) {
+		User user = null;
+		Session session = SessionFactoryService.get().openSession();
+		List<Pensamiento> pens = new ArrayList<>();
+		try {
+			session.beginTransaction();
+			pens.addAll(session.createQuery("select u.pensamientosPropios from User u where u.nick = :nick").setParameter("nick", nick).list());
+			session.getTransaction().commit();			
+		} catch (Exception e) {
+			
+		} finally {
+			session.close();
+		}
+		return pens;
+	}
 
 	@Override
 	public void updateUser(User user) {

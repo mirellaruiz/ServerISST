@@ -33,6 +33,7 @@ public class BorrarValoracionServlet extends HttpServlet {
 		Pensamiento pens = PensamientoDAOImplementation.getInstance().readPensamiento(idPens);
 		
 		valoracion = ValoracionDAOImplementation.getInstance().getValoracion(user, pens);
+		System.out.println(valoracion.getIdVal());
 		ValoracionDAOImplementation.getInstance().deleteValoracion(valoracion);
 		
 		resp.setContentType("application/json");

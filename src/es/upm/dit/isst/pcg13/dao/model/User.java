@@ -17,17 +17,17 @@ public class User {
 	private String password;
 	private String facebook;
 	private String twitter;
-	@OneToMany(mappedBy = "author", fetch = FetchType.EAGER)//relacion para BBDD
+	@OneToMany(mappedBy = "author", fetch = FetchType.EAGER, orphanRemoval=true)//relacion para BBDD
 	private List<Pensamiento> pensamientosPropios; 
 	
-	@OneToMany(mappedBy = "author", fetch = FetchType.EAGER)//relacion para BBDD
+	@OneToMany(mappedBy = "author", fetch = FetchType.EAGER, orphanRemoval=true)//relacion para BBDD
 	private List<Valoracion> valorados; 
 
 	//@ManyToMany(cascade = {CascadeType.ALL},  fetch = FetchType.EAGER)
 	//@JoinTable(name="Guardados", joinColumns= {@JoinColumn (name="nick")}, inverseJoinColumns= {@JoinColumn(name="idPens")})
 	//private List<Pensamiento> guardados;
 	
-	@ManyToMany(cascade = {CascadeType.ALL},  fetch = FetchType.EAGER)
+	@ManyToMany(cascade = {CascadeType.ALL},  fetch = FetchType.EAGER) 
 	@JoinTable(name="Amigos", joinColumns= {@JoinColumn (name="myNick")}, inverseJoinColumns= {@JoinColumn(name="nickFriend")})
 	private List<User> myFriends;
 	

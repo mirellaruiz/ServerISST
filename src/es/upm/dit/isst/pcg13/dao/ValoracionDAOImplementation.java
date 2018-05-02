@@ -72,7 +72,7 @@ public class ValoracionDAOImplementation implements ValoracionDAO{
 			Session session = SessionFactoryService.get().openSession();//Se abre la sesion
 		try {
 			session.beginTransaction();
-			pens.addAll(session.createQuery("select v.pensamiento from Valoracion v where v.author.nick = :nick and v.valor = :valor").setParameter("valor", true).list());
+			pens.addAll(session.createQuery("select v.pensamiento from Valoracion v where v.author.nick = :nick and v.valor = :valor").setParameter("nick", user.getNick()).setParameter("valor", true).list());
 			session.getTransaction().commit();
 		}
 		catch(Exception e) {
@@ -91,6 +91,8 @@ public class ValoracionDAOImplementation implements ValoracionDAO{
 		Valoracion valoracion = new Valoracion();
 		Session session = SessionFactoryService.get().openSession();//Se abre la sesion
 		try {
+			System.out.println(user.getNick());
+			System.out.println(pens.getIdPens());
 			session.beginTransaction();
 			valoracion = (Valoracion) session.createQuery("select v from Valoracion v where v.author.nick = :nick and v.pensamiento.idPens = :idPens").setParameter("nick", user.getNick()).setParameter("idPens", pens.getIdPens()).uniqueResult();
 			session.getTransaction().commit();

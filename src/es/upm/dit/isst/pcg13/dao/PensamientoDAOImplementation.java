@@ -56,29 +56,6 @@ public class PensamientoDAOImplementation implements PensamientoDAO{
 	}
 	
 	@Override
-	public boolean pensamientoEsPropio(int idPens){
-		
-		boolean result = false;
-		Session session = SessionFactoryService.get().openSession();//Se abre la sesion
-		try {
-			session.beginTransaction();
-			//Hay que valorar  si el comando SQL es el correcto.
-			result = (session.createQuery("select u.pensamientosPropios from User u where u.id = :id").setParameter("id", idPens).uniqueResult()!=null);
-			System.out.println("El pensamiento con ID "+idPens+ "es un pensamiento propio");
-			session.getTransaction().commit();
-		}
-		catch(Exception e) {
-			
-		} finally {
-			session.close();
-			
-		}
-		return result;
-		
-	}
-	
-
-	@Override
 	public Pensamiento readPensamiento(int idPens) {
 		Pensamiento pens = null;
 		Session session = SessionFactoryService.get().openSession();
@@ -113,13 +90,17 @@ public class PensamientoDAOImplementation implements PensamientoDAO{
 			session.close();
 			for (Pensamiento pensamiento: pensamientos) {
 				boolean valoradoLike = false;
+				System.out.println("nuevo pensamiento");
 				for(Valoracion val: pensamiento.getValoraciones()) {
-					if (val.getAuthor().getNick() ==user.getNick()) {
+					System.out.println("nueva valoracion");
+					System.out.println(val.getAuthor().getNick());
+					if (val.getAuthor().getNick().equals(user.getNick())) {
+						System.out.println("ya ha sido valorado");
 						valoradoLike = true;
 						break;
 					}
 				}
-				if (pensamiento.getAuthor().getNick() != user.getNick() && !valoradoLike && Utils.distance(lat, lon, Double.valueOf(pensamiento.getLatitude()),Double.valueOf(pensamiento.getLongitude())) < dis) {
+				if (!pensamiento.getAuthor().getNick().equals(user.getNick()) && !valoradoLike && Utils.distance(lat, lon, Double.valueOf(pensamiento.getLatitude()),Double.valueOf(pensamiento.getLongitude())) < dis) {
 					
 					cercanos.add(pensamiento);
 				}

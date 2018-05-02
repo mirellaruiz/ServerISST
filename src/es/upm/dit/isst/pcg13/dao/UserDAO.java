@@ -13,5 +13,6 @@ public interface UserDAO {
 	//public List<Pensamiento> readConLike (String nickname);
 	public List<User> readContactos (String nickname);
 	public User loginUser(String nick, String password);
+	public List<Pensamiento> getPropios(String nick);
 
 }

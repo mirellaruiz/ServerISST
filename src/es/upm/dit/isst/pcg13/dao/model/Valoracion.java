@@ -11,8 +11,10 @@ public class Valoracion {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int idVal;
 	@ManyToOne
+	@JoinColumn(name="nick")
 	private User author;
 	@ManyToOne
+	@JoinColumn(name="idPens")
 	private Pensamiento pensamiento;
 	
 	@org.hibernate.annotations.Type(type="true_false")

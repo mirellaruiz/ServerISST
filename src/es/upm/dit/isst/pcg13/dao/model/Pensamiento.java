@@ -11,6 +11,7 @@ public class Pensamiento {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int idPens;
 	@ManyToOne
+	@JoinColumn(name="nick")
 	private User author;
 	private String text;
 	private String topic;
@@ -19,7 +20,7 @@ public class Pensamiento {
 	private float longitude;
 	//@ManyToMany(cascade = {CascadeType.ALL}, mappedBy="guardados", fetch = FetchType.EAGER)
 	//private List<User> userGuardan;
-	@OneToMany(mappedBy = "pensamiento", fetch = FetchType.EAGER)//relacion para BBDD
+	@OneToMany(mappedBy = "pensamiento", fetch = FetchType.EAGER, orphanRemoval=true)//relacion para BBDD, orphan removal para que borre todas las relaciones
 	private List<Valoracion> valoraciones; 
 	
 	public List<Valoracion> getValoraciones() {

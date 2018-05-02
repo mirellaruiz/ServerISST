@@ -12,7 +12,7 @@ public interface PensamientoDAO {
 	public void updatePensamiento(Pensamiento pensamiento);
 	public void deletePensamiento(int idPens);
 	public List<Pensamiento> readNearest(double lat, double lon, double dis, User user);
-	public boolean pensamientoEsPropio (int idPens);
+
 	public int getLikes(Pensamiento pensamiento);
 	public int getDislikes(Pensamiento pensamiento);
 	public int getLastId();

@@ -28,11 +28,19 @@ public class BorrarPensamientosPropiosServlet extends HttpServlet {
 		User user = UserDAOImplementation.getInstance().getUser(nickname);
 		resp.setContentType("application/json");
 		resp.setCharacterEncoding("utf-8");
-		if(PensamientoDAOImplementation.getInstance().pensamientoEsPropio(id)) {
-			PensamientoDAOImplementation.getInstance().deletePensamiento(id);
-			
-			resp.getWriter().write("ok");
+		if(user != null) {
+			List <Pensamiento> propios = UserDAOImplementation.getInstance().getPropios(nickname);
+		for (Pensamiento p: propios) {
+			if (p.getIdPens() == id) {
+				PensamientoDAOImplementation.getInstance().deletePensamiento(id);
+				resp.getWriter().write("ok");
+				break;
+				
+			}
 		}
-		resp.getWriter().write("no se ha borrado nada");
+		resp.getWriter().write("no se ha borrado nada");	
+			
+		}
+		resp.getWriter().write("error de autenticacion");
 	}	
 }
