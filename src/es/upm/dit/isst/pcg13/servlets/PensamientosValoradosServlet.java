@@ -1,6 +1,8 @@
 package es.upm.dit.isst.pcg13.servlets;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -37,8 +39,19 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
 	for (Pensamiento pens: guardados) {
 	JsonObject j = new JsonObject();
 	j.addProperty("id", String.valueOf(pens.getIdPens()));
+	String dateFormat = pens.getDate().toString().substring(0, 19);
+	String dateSent = new String();
+	SimpleDateFormat parseador = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	SimpleDateFormat formateador = new SimpleDateFormat("dd/MM HH:mm");
+try {
+	Date date = parseador.parse(dateFormat);
+	dateSent= formateador.format(date);
+}
+catch (Exception e){
 	
-	j.addProperty("date", pens.getDate().toString());
+}
+	
+	j.addProperty("date", dateSent);
 	
 	j.addProperty("latitude", String.valueOf(pens.getLatitude()));
 	
