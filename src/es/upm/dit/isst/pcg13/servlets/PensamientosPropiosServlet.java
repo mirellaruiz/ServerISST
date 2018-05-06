@@ -60,8 +60,11 @@ catch (Exception e){
 	System.out.println(pens.getDate().toString());
 	j.addProperty("topic",  pens.getTopic());
 	j.addProperty("text", pens.getText());
+	System.out.println(pens.getText());
 	if (pens.getAuthor() != null)
 	j.addProperty("autor", pens.getAuthor().getNick());
+
+	j.addProperty("likes", String.valueOf(pens.getLikes()));
 	jsonA.add(j);
 	}
 	}

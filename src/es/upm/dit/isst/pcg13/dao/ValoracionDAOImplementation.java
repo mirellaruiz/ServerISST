@@ -74,6 +74,9 @@ public class ValoracionDAOImplementation implements ValoracionDAO{
 			session.beginTransaction();
 			pens.addAll(session.createQuery("select v.pensamiento from Valoracion v where v.author.nick = :nick and v.valor = :valor").setParameter("nick", user.getNick()).setParameter("valor", true).list());
 			session.getTransaction().commit();
+			for (Pensamiento p: pens) {
+				p.setLikes(PensamientoDAOImplementation.getInstance().getLikes(p));
+			}
 		}
 		catch(Exception e) {
 			

@@ -2,6 +2,9 @@ package es.upm.dit.isst.pcg13.servlets;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -33,6 +36,15 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
 	resp.setContentType("application/json");
 	resp.setCharacterEncoding("utf-8");
 	JsonArray jsonA = new JsonArray();
+	Collections.sort(cercanos, new Comparator<Pensamiento>() {
+		
+
+		@Override
+		public int compare(Pensamiento p1, Pensamiento p2) {
+			
+			return (new Integer(p2.getLikes()).compareTo(new Integer(p1.getLikes())));
+		}
+	});
 	for (Pensamiento pens: cercanos) {
 	JsonObject j = new JsonObject();
 	j.addProperty("id", String.valueOf(pens.getIdPens()));
@@ -56,8 +68,10 @@ catch (Exception e){
 	System.out.println(pens.getDate().toString());
 	j.addProperty("topic",  pens.getTopic());
 	j.addProperty("text", pens.getText());
+	System.out.println(pens.getText());
 	if (pens.getAuthor() != null)
 	j.addProperty("autor", pens.getAuthor().getNick());
+	j.addProperty("likes", String.valueOf(pens.getLikes()));
 	jsonA.add(j);
 	}
 	

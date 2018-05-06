@@ -33,6 +33,7 @@ public class ValorarServlet extends HttpServlet {
 		Pensamiento pens = PensamientoDAOImplementation.getInstance().readPensamiento(idPens);
 		
 		
+		
 				
 					
 					valoracion.setValor(valor);
@@ -41,7 +42,6 @@ public class ValorarServlet extends HttpServlet {
 					ValoracionDAOImplementation.getInstance().createValoracion(valoracion);
 					
 					
-		
 		
 		
 		System.out.println(valoracion.getValor());

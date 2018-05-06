@@ -29,8 +29,8 @@ public class Pensamiento {
 	public void setValoraciones(List<Valoracion> valoraciones) {
 		this.valoraciones = valoraciones;
 	}
-	private float likes;
-	private float dislikes;
+	private int likes;
+	private int dislikes;
 	
 	public int getIdPens() {
 		return idPens;
@@ -81,16 +81,16 @@ public class Pensamiento {
 		this.userGuardan = userGuardan;
 	}*/
 	
-	public float getDislikes() {
+	public int getDislikes() {
 		return dislikes;
 	}
-	public void setDislikes(float dislikes) {
+	public void setDislikes(int dislikes) {
 		this.dislikes = dislikes;
 	}
-	public float getLikes() {
+	public int getLikes() {
 		return likes;
 	}
-	public void setLikes(float likes) {
+	public void setLikes(int likes) {
 		this.likes = likes;
 	}
 	

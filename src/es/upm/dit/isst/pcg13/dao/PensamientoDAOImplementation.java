@@ -91,6 +91,7 @@ public class PensamientoDAOImplementation implements PensamientoDAO{
 			for (Pensamiento pensamiento: pensamientos) {
 				boolean valoradoLike = false;
 				System.out.println("nuevo pensamiento");
+				
 				for(Valoracion val: pensamiento.getValoraciones()) {
 					System.out.println("nueva valoracion");
 					System.out.println(val.getAuthor().getNick());
@@ -101,7 +102,7 @@ public class PensamientoDAOImplementation implements PensamientoDAO{
 					}
 				}
 				if (!pensamiento.getAuthor().getNick().equals(user.getNick()) && !valoradoLike && Utils.distance(lat, lon, Double.valueOf(pensamiento.getLatitude()),Double.valueOf(pensamiento.getLongitude())) < dis) {
-					
+					pensamiento.setLikes(getLikes(pensamiento));
 					cercanos.add(pensamiento);
 				}
 			}
@@ -150,6 +151,9 @@ public List<Pensamiento> readAll(String nick){
 		pensamientos.addAll( session.createQuery("select p from Pensamiento p where p.author.nick = :nick")
 						.setParameter("nick", nick)			
 				.list());
+		for (Pensamiento pens: pensamientos) {
+			pens.setLikes(getLikes(pens));
+		}
 		session.getTransaction().commit();			
 	} catch (Exception e) {
 		
@@ -200,6 +204,7 @@ public List<Pensamiento> readAll(String nick){
 			session.close();
 		
 			}
+		System.out.println(likes);
 			return likes;
 		}
 		
