@@ -127,10 +127,12 @@ public class UserDAOImplementation implements UserDAO {
 		Session session = SessionFactoryService.get().openSession();
 		try {
 			user1.getMyFriends().add(user2);
+			user2.getMyFriends().add(user1);
 			session.beginTransaction();
 			//No sé si la createquery es la correcta
 		
 			session.saveOrUpdate(user1);
+			session.saveOrUpdate(user2);
 			
 			session.getTransaction().commit();
 		}
@@ -145,6 +147,7 @@ public class UserDAOImplementation implements UserDAO {
 	@Override
 	public List<User> deleteContactos (User user1, User user2){
 		List<User> contactos = new ArrayList<>();
+		List<User> contactos2 = new ArrayList<>();
 		Session session = SessionFactoryService.get().openSession();
 		try {
 			contactos = user1.getMyFriends();
@@ -160,10 +163,27 @@ public class UserDAOImplementation implements UserDAO {
 			}
 			}
 			
+			contactos2 = user2.getMyFriends();
+			
+			Iterator<User> it2= contactos2.iterator();
+			 
+			while(it2.hasNext()) {
+			 
+			String nombre2= it2.next().getNick();
+			if (nombre2.equals(user2.getNick())) {
+			 
+			it2.remove();
+			}
+			}
+			
 			session.beginTransaction();
-			//No sé si la createquery es la correcta
+			
 			user1.setMyFriends(contactos);
+			user2.setMyFriends(contactos2);
+			
+			
 			session.saveOrUpdate(user1);
+			session.saveOrUpdate(user2);
 			
 			session.getTransaction().commit();
 		}
