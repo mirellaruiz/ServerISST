@@ -35,7 +35,6 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
 	//Persistimos el dato
 
 	user = UserDAOImplementation.getInstance().loginUser(nick, password);
-
 	resp.setContentType("application/json");
 	resp.setCharacterEncoding("utf-8");
 	String json;

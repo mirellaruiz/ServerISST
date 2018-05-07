@@ -120,7 +120,26 @@ public class UserDAOImplementation implements UserDAO {
 			}
 			return user;
 		}
+	@Override
+	public List<User> createContactos (User user1, User user2){
+		List<User> contactos = new ArrayList<>();
+		Session session = SessionFactoryService.get().openSession();
+		try {
+			user1.getMyFriends().add(user2);
+			session.beginTransaction();
+			//No sé si la createquery es la correcta
 		
+			session.saveOrUpdate(user1);
+			
+			session.getTransaction().commit();
+		}
+		catch (Exception e){
+			System.out.println(e);
+		}finally {
+			session.close();
+		}
+		return contactos;
+	}
 		
 		@Override
 		public List<User> readContactos (String nickname){

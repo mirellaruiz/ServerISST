@@ -1,15 +1,16 @@
 package es.upm.dit.isst.pcg13.dao.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.JoinColumn;
 @Entity
 public class User {
 	@Id
@@ -26,16 +27,51 @@ public class User {
 	//@ManyToMany(cascade = {CascadeType.ALL},  fetch = FetchType.EAGER)
 	//@JoinTable(name="Guardados", joinColumns= {@JoinColumn (name="nick")}, inverseJoinColumns= {@JoinColumn(name="idPens")})
 	//private List<Pensamiento> guardados;
-	
-	@ManyToMany(cascade = {CascadeType.ALL},  fetch = FetchType.EAGER) 
-	@JoinTable(name="Amigos", joinColumns= {@JoinColumn (name="myNick")}, inverseJoinColumns= {@JoinColumn(name="nickFriend")})
+	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
 	private List<User> myFriends;
-	
-	@ManyToMany(cascade = {CascadeType.ALL}, mappedBy="myFriends",  fetch = FetchType.EAGER)
-	private List<User> friendsWithMe;
+//	
+//	@ManyToMany(cascade = {CascadeType.ALL},  fetch = FetchType.EAGER) 
+//	@JoinTable(name="Amigos", joinColumns= {@JoinColumn (name="myNick")}, inverseJoinColumns= {@JoinColumn(name="nickFriend")})
+//	private List<User> myFriends;
+//	
+//	@ManyToMany(cascade = {CascadeType.ALL}, mappedBy="myFriends",  fetch = FetchType.EAGER)
+//	private List<User> friendsWithMe;
+//	
+//	@OneToMany(mappedBy="userId2")
+//	  private List<Contactos> contactos1;
+//	
+//	@OneToMany(mappedBy="userId1")
+//	  private List<Contactos> contactos2;
+//	
+	/* public void addContacto(User user2) {
+	    Contactos association = new Contactos();
+	    association.setUser2(user2);
+	    association.setUser1(this);
+	    association.setUserId2(user2.getNick());
+	    association.setUserId1(this.getNick());
+	    
+	    if(this.contactos2 == null)
+	       this.contactos2 = new ArrayList<>();
 
+	    this.contactos2.add(association);
+	    // Also add the association object to the employee.
+	    user2.getContactos().add(association);
+	  }
+	
+	public List<Contactos> getContactos() {
+		return contactos1;
+	}
+	
+	public void setContactos(List<Contactos> Contactos) {
+		this.contactos1 = Contactos;
+	} */
+	
 	public String getNick() {
 		return nick;
+	}
+
+	public User() {
+		myFriends = new ArrayList();
 	}
 
 	public void setNick(String nick) {
@@ -99,11 +135,11 @@ public class User {
 		this.myFriends = myFriends;
 	}
 
-	public List<User> getFriendsWithMe() {
+	/*public List<User> getFriendsWithMe() {
 		return friendsWithMe;
 	}
 
 	public void setFriendsWithMe(List<User> friendsWithMe) {
 		this.friendsWithMe = friendsWithMe;
-	}
+	} */
 }

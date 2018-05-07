@@ -14,5 +14,6 @@ public interface UserDAO {
 	public List<User> readContactos (String nickname);
 	public User loginUser(String nick, String password);
 	public List<Pensamiento> getPropios(String nick);
+	List<User> createContactos(User user1, User user2);
 
 }
