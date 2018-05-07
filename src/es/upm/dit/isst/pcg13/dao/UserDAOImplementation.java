@@ -1,12 +1,13 @@
 package es.upm.dit.isst.pcg13.dao;
 
-import es.upm.dit.isst.pcg13.dao.model.Pensamiento;
-import es.upm.dit.isst.pcg13.dao.model.User;
-
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.Session;
+
+import es.upm.dit.isst.pcg13.dao.model.Pensamiento;
+import es.upm.dit.isst.pcg13.dao.model.User;
 public class UserDAOImplementation implements UserDAO {
 	
 	private static UserDAOImplementation instance;//Para modelo singleton
@@ -140,6 +141,40 @@ public class UserDAOImplementation implements UserDAO {
 		}
 		return contactos;
 	}
+	
+	@Override
+	public List<User> deleteContactos (User user1, User user2){
+		List<User> contactos = new ArrayList<>();
+		Session session = SessionFactoryService.get().openSession();
+		try {
+			contactos = user1.getMyFriends();
+			
+			Iterator<User> it= contactos.iterator();
+			 
+			while(it.hasNext()) {
+			 
+			String nombre= it.next().getNick();
+			if (nombre.equals(user2.getNick())) {
+			 
+			it.remove();
+			}
+			}
+			
+			session.beginTransaction();
+			//No sé si la createquery es la correcta
+			user1.setMyFriends(contactos);
+			session.saveOrUpdate(user1);
+			
+			session.getTransaction().commit();
+		}
+		catch (Exception e){
+			System.out.println(e);
+		}finally {
+			session.close();
+		}
+		return contactos;
+	}
+	
 		
 		@Override
 		public List<User> readContactos (String nickname){
