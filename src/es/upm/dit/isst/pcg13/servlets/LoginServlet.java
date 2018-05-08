@@ -1,9 +1,7 @@
 package es.upm.dit.isst.pcg13.servlets;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import es.upm.dit.isst.pcg13.dao.UserDAOImplementation;
 import es.upm.dit.isst.pcg13.dao.model.User;
@@ -21,14 +20,28 @@ import es.upm.dit.isst.pcg13.dao.model.User;
 public class LoginServlet extends HttpServlet {
 
 @Override
-protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 /*
 protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 */
 
-	// TODO Auto-generated method stub
-	String nick = req.getParameter("nick");
-	String password = req.getParameter("password");
+	StringBuffer jb = new StringBuffer();
+	  String line = null;
+	  try {
+	    BufferedReader reader = req.getReader();
+	    while ((line = reader.readLine()) != null)
+	      jb.append(line);
+	  } catch (Exception e) { System.out.println("error al parsear peticion"); }
+
+	    JsonObject jsonObject =  new Gson().fromJson(jb.toString(), JsonObject.class);
+
+	    System.out.println(jsonObject);
+	    
+	String nick = jsonObject.get("nick").getAsString();
+	String password = jsonObject.get("password").getAsString();
+	
+	//String nick = req.getParameter("nick");
+	//String password = req.getParameter("password");
 	System.out.println(nick+" "+password);
 	User user = null;
 
