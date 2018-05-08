@@ -1,12 +1,13 @@
 package es.upm.dit.isst.pcg13.dao;
 
-import es.upm.dit.isst.pcg13.dao.model.Pensamiento;
-import es.upm.dit.isst.pcg13.dao.model.User;
-
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.Session;
+
+import es.upm.dit.isst.pcg13.dao.model.Pensamiento;
+import es.upm.dit.isst.pcg13.dao.model.User;
 public class UserDAOImplementation implements UserDAO {
 	
 	private static UserDAOImplementation instance;//Para modelo singleton
@@ -126,10 +127,12 @@ public class UserDAOImplementation implements UserDAO {
 		Session session = SessionFactoryService.get().openSession();
 		try {
 			user1.getMyFriends().add(user2);
+			user2.getMyFriends().add(user1);
 			session.beginTransaction();
 			//No sé si la createquery es la correcta
 		
 			session.saveOrUpdate(user1);
+			session.saveOrUpdate(user2);
 			
 			session.getTransaction().commit();
 		}
@@ -140,6 +143,58 @@ public class UserDAOImplementation implements UserDAO {
 		}
 		return contactos;
 	}
+	
+	@Override
+	public List<User> deleteContactos (User user1, User user2){
+		List<User> contactos = new ArrayList<>();
+		List<User> contactos2 = new ArrayList<>();
+		Session session = SessionFactoryService.get().openSession();
+		try {
+			contactos = user1.getMyFriends();
+			
+			Iterator<User> it= contactos.iterator();
+			 
+			while(it.hasNext()) {
+			 
+			String nombre= it.next().getNick();
+			if (nombre.equals(user2.getNick())) {
+			 
+			it.remove();
+			}
+			}
+			
+			contactos2 = user2.getMyFriends();
+			
+			Iterator<User> it2= contactos2.iterator();
+			 
+			while(it2.hasNext()) {
+			 
+			String nombre2= it2.next().getNick();
+			if (nombre2.equals(user2.getNick())) {
+			 
+			it2.remove();
+			}
+			}
+			
+			session.beginTransaction();
+			
+			user1.setMyFriends(contactos);
+			user2.setMyFriends(contactos2);
+			
+			
+			session.saveOrUpdate(user1);
+			session.saveOrUpdate(user2);
+			
+			session.getTransaction().commit();
+		}
+		catch (Exception e){
+			System.out.println(e);
+		}finally {
+			session.close();
+		}
+		return contactos;
+	}
+	
 		
 		@Override
 		public List<User> readContactos (String nickname){

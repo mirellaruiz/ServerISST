@@ -46,10 +46,6 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
 		for (User usuario: contactos) {
 			JsonObject j = new JsonObject();
 			j.addProperty("nick", usuario.getNick());
-			j.addProperty("pensamientoscontacto", usuario.getPensamientosPropios().toString());
-			//No sé si será necesario añadir los pensamientos de los propios contactos al Json
-			j.addProperty("facebook", usuario.getFacebook());
-			j.addProperty("twitter", usuario.getTwitter());
 			jsonA.add(j);
 		}
 	}
