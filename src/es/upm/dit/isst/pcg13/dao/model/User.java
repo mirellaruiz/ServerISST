@@ -24,54 +24,22 @@ public class User {
 	@OneToMany(mappedBy = "author", fetch = FetchType.EAGER, orphanRemoval=true)//relacion para BBDD
 	private List<Valoracion> valorados; 
 
-	//@ManyToMany(cascade = {CascadeType.ALL},  fetch = FetchType.EAGER)
-	//@JoinTable(name="Guardados", joinColumns= {@JoinColumn (name="nick")}, inverseJoinColumns= {@JoinColumn(name="idPens")})
-	//private List<Pensamiento> guardados;
+	@OneToMany(mappedBy = "solicitante", fetch = FetchType.EAGER, orphanRemoval=true)//relacion para BBDD, orphan removal para que borre todas las relaciones
+	private List<Peticion> peticionesPropias; 
+	
+	@OneToMany(mappedBy = "solicitado", fetch = FetchType.EAGER, orphanRemoval=true)//relacion para BBDD, orphan removal para que borre todas las relaciones
+	private List<Peticion> peticiones; 
+	
 	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
-	private List<User> myFriends;
-//	
-//	@ManyToMany(cascade = {CascadeType.ALL},  fetch = FetchType.EAGER) 
-//	@JoinTable(name="Amigos", joinColumns= {@JoinColumn (name="myNick")}, inverseJoinColumns= {@JoinColumn(name="nickFriend")})
-//	private List<User> myFriends;
-//	
-//	@ManyToMany(cascade = {CascadeType.ALL}, mappedBy="myFriends",  fetch = FetchType.EAGER)
-//	private List<User> friendsWithMe;
-//	
-//	@OneToMany(mappedBy="userId2")
-//	  private List<Contactos> contactos1;
-//	
-//	@OneToMany(mappedBy="userId1")
-//	  private List<Contactos> contactos2;
-//	
-	/* public void addContacto(User user2) {
-	    Contactos association = new Contactos();
-	    association.setUser2(user2);
-	    association.setUser1(this);
-	    association.setUserId2(user2.getNick());
-	    association.setUserId1(this.getNick());
-	    
-	    if(this.contactos2 == null)
-	       this.contactos2 = new ArrayList<>();
+	private List<User> contactos;    
 
-	    this.contactos2.add(association);
-	    // Also add the association object to the employee.
-	    user2.getContactos().add(association);
-	  }
 	
-	public List<Contactos> getContactos() {
-		return contactos1;
-	}
-	
-	public void setContactos(List<Contactos> Contactos) {
-		this.contactos1 = Contactos;
-	} */
-	
+
 	public String getNick() {
 		return nick;
 	}
 
 	public User() {
-		myFriends = new ArrayList();
 	}
 
 	public void setNick(String nick) {
@@ -111,13 +79,30 @@ public class User {
 		this.pensamientosPropios = pensamientosPropios;
 	}
 
-	/*public List<Pensamiento> getGuardados() {
-		return guardados;
+	
+	public List<Peticion> getPeticionesPropias() {
+		return peticionesPropias;
 	}
 
-	public void setGuardados(List<Pensamiento> guardados) {
-		this.guardados = guardados;
-	}*/
+	public void setPeticionesPropias(List<Peticion> peticionesPropias) {
+		this.peticionesPropias = peticionesPropias;
+	}
+
+	public List<Peticion> getPeticiones() {
+		return peticiones;
+	}
+
+	public void setPeticiones(List<Peticion> peticiones) {
+		this.peticiones = peticiones;
+	}
+
+	public List<User> getContactos() {
+		return contactos;
+	}
+
+	public void setContactos(List<User> contactos) {
+		this.contactos = contactos;
+	}
 
 	public List<Valoracion> getValorados() {
 		return valorados;
@@ -127,19 +112,5 @@ public class User {
 		this.valorados = valorados;
 	}
 
-	public List<User> getMyFriends() {
-		return myFriends;
-	}
-
-	public void setMyFriends(List<User> myFriends) {
-		this.myFriends = myFriends;
-	}
-
-	/*public List<User> getFriendsWithMe() {
-		return friendsWithMe;
-	}
-
-	public void setFriendsWithMe(List<User> friendsWithMe) {
-		this.friendsWithMe = friendsWithMe;
-	} */
+	
 }

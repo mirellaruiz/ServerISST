@@ -126,8 +126,8 @@ public class UserDAOImplementation implements UserDAO {
 		List<User> contactos = new ArrayList<>();
 		Session session = SessionFactoryService.get().openSession();
 		try {
-			user1.getMyFriends().add(user2);
-			user2.getMyFriends().add(user1);
+			user1.getContactos().add(user2);
+			user2.getContactos().add(user1);
 			session.beginTransaction();
 			//No sé si la createquery es la correcta
 		
@@ -150,7 +150,7 @@ public class UserDAOImplementation implements UserDAO {
 		List<User> contactos2 = new ArrayList<>();
 		Session session = SessionFactoryService.get().openSession();
 		try {
-			contactos = user1.getMyFriends();
+			contactos = user1.getContactos();
 			
 			Iterator<User> it= contactos.iterator();
 			 
@@ -163,7 +163,7 @@ public class UserDAOImplementation implements UserDAO {
 			}
 			}
 			
-			contactos2 = user2.getMyFriends();
+			contactos2 = user2.getContactos();
 			
 			Iterator<User> it2= contactos2.iterator();
 			 
@@ -178,8 +178,8 @@ public class UserDAOImplementation implements UserDAO {
 			
 			session.beginTransaction();
 			
-			user1.setMyFriends(contactos);
-			user2.setMyFriends(contactos2);
+			user1.setContactos(contactos);
+			user2.setContactos(contactos2);
 			
 			
 			session.saveOrUpdate(user1);
@@ -195,9 +195,28 @@ public class UserDAOImplementation implements UserDAO {
 		return contactos;
 	}
 	
-		
+	@Override
+	public List<User> readPeticiones(String nickname){
+		List<User> contactos = new ArrayList<>();
+		Session session = SessionFactoryService.get().openSession();
+		try {
+			session.beginTransaction();
+			//No sé si la createquery es la correcta
+			contactos.addAll(session.createQuery("select u.myFriends from User u " + 
+			"where u.nick = :nick")
+				.setParameter("nick", nickname)
+				.list());
+			session.getTransaction().commit();
+		}
+		catch (Exception e){
+			System.out.println(e);
+		}finally {
+			session.close();
+		}
+		return contactos;
+	}
 		@Override
-		public List<User> readContactos (String nickname){
+		public List<User> readMisPeticiones(String nickname){
 			List<User> contactos = new ArrayList<>();
 			Session session = SessionFactoryService.get().openSession();
 			try {
@@ -216,7 +235,41 @@ public class UserDAOImplementation implements UserDAO {
 			}
 			return contactos;
 		}
-		
+		@Override
+		public List<User> readContactos(String nickname){
+			List<User> contactos = new ArrayList<>();
+			Session session = SessionFactoryService.get().openSession();
+			try {
+				session.beginTransaction();
+				//No sé si la createquery es la correcta
+				contactos.addAll(session.createQuery("select u.myContacts from User u " + 
+				"where u.nick = :nick")
+					.setParameter("nick", nickname)
+					.list());
+				session.getTransaction().commit();
+			}
+			catch (Exception e){
+				System.out.println(e);
+			}finally {
+				session.close();
+			}
+			return contactos;
+		}
+		public void aceptarContacto (User user1, User user2) {
+			Session session = SessionFactoryService.get().openSession();
+			try {
+				readContactos(user1.getNick());
+				session.beginTransaction();
+				//No sé si la createquery es la correcta
+				
+				session.getTransaction().commit();
+			}
+			catch (Exception e){
+				System.out.println(e);
+			}finally {
+				session.close();
+			}
+				}
 	}
 
 

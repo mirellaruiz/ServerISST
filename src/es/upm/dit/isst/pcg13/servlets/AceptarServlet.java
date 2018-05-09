@@ -16,8 +16,8 @@ import com.google.gson.JsonObject;
 import es.upm.dit.isst.pcg13.dao.UserDAOImplementation;
 import es.upm.dit.isst.pcg13.dao.model.User;
 
-@WebServlet("/ContactarServlet")
-public class ContactarServlet extends HttpServlet {
+@WebServlet("/AceptarServlet")
+public class AceptarServlet extends HttpServlet {
 	
 @Override
 protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -34,21 +34,27 @@ protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws S
 
 		String nick1 = jsonObject.get("nick1").getAsString();
 		String nick2 = jsonObject.get("nick2").getAsString();
+		Boolean action = jsonObject.get("action").getAsBoolean();
 
 	 User user1 = UserDAOImplementation.getInstance().getUser(nick1);
 	 User user2 = UserDAOImplementation.getInstance().getUser(nick2);
-	List<User> contactos = UserDAOImplementation.getInstance().createContactos(user1, user2);
+	 String json;
+		if (user1==null || user2==null) {
+			json =new  Gson().toJson("wrong");
+	}
+		else if (action==true) {
+		UserDAOImplementation.getInstance().aceptarContacto(user1, user2); 
+		json =new  Gson().toJson("aceptada");
+	 }
+	 else {
+		 json =new  Gson().toJson("denegada");;
+	 }
 	resp.setContentType("application/json");
 	resp.setCharacterEncoding("utf-8");
-	String json;
-	if (user1==null || user2==null) {
-		json =new  Gson().toJson("wrong");
-}
-else {
-json =new  Gson().toJson("ok");
-}
+
 	resp.getWriter().write(json);
 	
 }	
 
 }
+
