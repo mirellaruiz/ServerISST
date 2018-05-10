@@ -11,6 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 @Entity
 public class User {
 	@Id
@@ -24,10 +27,12 @@ public class User {
 	@OneToMany(mappedBy = "author", fetch = FetchType.EAGER, orphanRemoval=true)//relacion para BBDD
 	private List<Valoracion> valorados; 
 
-	@OneToMany(mappedBy = "solicitante", fetch = FetchType.EAGER, orphanRemoval=true)//relacion para BBDD, orphan removal para que borre todas las relaciones
+	@OneToMany(mappedBy = "solicitante", orphanRemoval=true)//relacion para BBDD, orphan removal para que borre todas las relaciones
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Peticion> peticionesPropias; 
 	
-	@OneToMany(mappedBy = "solicitado", fetch = FetchType.EAGER, orphanRemoval=true)//relacion para BBDD, orphan removal para que borre todas las relaciones
+	@OneToMany(mappedBy = "solicitado", orphanRemoval=true)//relacion para BBDD, orphan removal para que borre todas las relaciones
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Peticion> peticiones; 
 	
 	    

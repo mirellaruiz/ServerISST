@@ -14,10 +14,9 @@ public class Peticion{
 	@JoinColumn(name="nick")
 	private User solicitante;
 	@ManyToOne
-	@JoinColumn(name="nick")
+	@JoinColumn(name="nick2", referencedColumnName="nick")
 	private User solicitado;
 	
-	@org.hibernate.annotations.Type(type="true_false")
 	private int estado;
 
 	public int getId() {

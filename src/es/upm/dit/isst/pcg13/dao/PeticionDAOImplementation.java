@@ -23,6 +23,7 @@ public class PeticionDAOImplementation implements PeticionDAO{
 		try {
 			session.beginTransaction();
 			session.save(peticion);
+			System.out.println("nullls");
 			session.getTransaction().commit();
 		}
 		catch(Exception e) {
@@ -38,7 +39,7 @@ public class PeticionDAOImplementation implements PeticionDAO{
 		Session session = SessionFactoryService.get().openSession();//Se abre la sesion
 		try {
 			session.beginTransaction();
-			peticion= (Peticion) session.createQuery("select p from Peticion p where p.solicitante.nick = :nick1 and p.ssolicitado.nick = :nick2").setParameter("nick1", user1.getNick()).setParameter("nick2", user2.getNick()).uniqueResult();
+			peticion= (Peticion) session.createQuery("select p from Peticion p where p.solicitante.nick = :nick1 and p.solicitado.nick = :nick2").setParameter("nick1", user1.getNick()).setParameter("nick2", user2.getNick()).uniqueResult();
 			session.getTransaction().commit();
 		}
 		catch(Exception e) {

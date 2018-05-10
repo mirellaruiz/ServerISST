@@ -46,22 +46,27 @@ protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws S
 	 
 		if (user1==null || user2==null) {
 			json =new  Gson().toJson("wrong");
+			
 	}
 		else {
 			//si ya la has solicitado esta repetida
 			for (Peticion p: UserDAOImplementation.getInstance().readMisPeticiones(nick1)) {
-				 if (p.getSolicitado().getNick() ==user2.getNick()) {
+				
+				 if (p.getSolicitado().getNick().equals(user2.getNick())) {
+					 System.out.println("llego aqui");
 					 twice = true;
 				 }
 			 }
 			//o si ya la has aceptado esta repetida
 			for (Peticion p: UserDAOImplementation.getInstance().readPeticiones(nick1)) {
-				 if (p.getSolicitante().getNick() ==user2.getNick() && p.getEstado()==1) {
+				 if (p.getSolicitante().getNick().equals(user2.getNick()) && p.getEstado()==1) {
 					 twice = true;
 				 }
+				 
 			 }
 	 //si no esta repetida, creamos la peticion
 	 if (!twice) {
+		 System.out.println("contactado");
 		Peticion p = new Peticion();
 		p.setEstado(0);
 		p.setSolicitado(user2);
@@ -70,6 +75,7 @@ protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws S
 		json=new  Gson().toJson("creada");
 	 }
 	 else {
+		 System.out.println("repetido");
 		 json =new  Gson().toJson("operacion repetida");
 		  
 	 }
