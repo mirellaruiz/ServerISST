@@ -13,7 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import es.upm.dit.isst.pcg13.dao.PeticionDAOImplementation;
 import es.upm.dit.isst.pcg13.dao.UserDAOImplementation;
+import es.upm.dit.isst.pcg13.dao.model.Peticion;
 import es.upm.dit.isst.pcg13.dao.model.User;
 
 @WebServlet("/ContactarServlet")
@@ -37,16 +39,46 @@ protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws S
 
 	 User user1 = UserDAOImplementation.getInstance().getUser(nick1);
 	 User user2 = UserDAOImplementation.getInstance().getUser(nick2);
-	List<User> contactos = UserDAOImplementation.getInstance().createContactos(user1, user2);
+	//creamos la peticion
+	 //primero miramos si no hemos pedido amistad antes
+	 String json;
+	 boolean twice = false;
+	 
+		if (user1==null || user2==null) {
+			json =new  Gson().toJson("wrong");
+	}
+		else {
+			//si ya la has solicitado esta repetida
+			for (Peticion p: UserDAOImplementation.getInstance().readMisPeticiones(nick1)) {
+				 if (p.getSolicitado().getNick() ==user2.getNick()) {
+					 twice = true;
+				 }
+			 }
+			//o si ya la has aceptado esta repetida
+			for (Peticion p: UserDAOImplementation.getInstance().readPeticiones(nick1)) {
+				 if (p.getSolicitante().getNick() ==user2.getNick() && p.getEstado()==1) {
+					 twice = true;
+				 }
+			 }
+	 //si no esta repetida, creamos la peticion
+	 if (!twice) {
+		Peticion p = new Peticion();
+		p.setEstado(0);
+		p.setSolicitado(user2);
+		p.setSolicitante(user1);
+		PeticionDAOImplementation.getInstance().createPeticion(p);
+		json=new  Gson().toJson("creada");
+	 }
+	 else {
+		 json =new  Gson().toJson("operacion repetida");
+		  
+	 }
+		} 
 	resp.setContentType("application/json");
 	resp.setCharacterEncoding("utf-8");
-	String json;
-	if (user1==null || user2==null) {
-		json =new  Gson().toJson("wrong");
-}
-else {
-json =new  Gson().toJson("ok");
-}
+	
+
+
 	resp.getWriter().write(json);
 	
 }	

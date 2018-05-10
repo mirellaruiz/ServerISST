@@ -7,6 +7,7 @@ import java.util.List;
 import org.hibernate.Session;
 
 import es.upm.dit.isst.pcg13.dao.model.Pensamiento;
+import es.upm.dit.isst.pcg13.dao.model.Peticion;
 import es.upm.dit.isst.pcg13.dao.model.User;
 public class UserDAOImplementation implements UserDAO {
 	
@@ -121,88 +122,16 @@ public class UserDAOImplementation implements UserDAO {
 			}
 			return user;
 		}
-	@Override
-	public List<User> createContactos (User user1, User user2){
-		List<User> contactos = new ArrayList<>();
-		Session session = SessionFactoryService.get().openSession();
-		try {
-			user1.getContactos().add(user2);
-			user2.getContactos().add(user1);
-			session.beginTransaction();
-			//No sé si la createquery es la correcta
-		
-			session.saveOrUpdate(user1);
-			session.saveOrUpdate(user2);
-			
-			session.getTransaction().commit();
-		}
-		catch (Exception e){
-			System.out.println(e);
-		}finally {
-			session.close();
-		}
-		return contactos;
-	}
+	
 	
 	@Override
-	public List<User> deleteContactos (User user1, User user2){
-		List<User> contactos = new ArrayList<>();
-		List<User> contactos2 = new ArrayList<>();
-		Session session = SessionFactoryService.get().openSession();
-		try {
-			contactos = user1.getContactos();
-			
-			Iterator<User> it= contactos.iterator();
-			 
-			while(it.hasNext()) {
-			 
-			String nombre= it.next().getNick();
-			if (nombre.equals(user2.getNick())) {
-			 
-			it.remove();
-			}
-			}
-			
-			contactos2 = user2.getContactos();
-			
-			Iterator<User> it2= contactos2.iterator();
-			 
-			while(it2.hasNext()) {
-			 
-			String nombre2= it2.next().getNick();
-			if (nombre2.equals(user2.getNick())) {
-			 
-			it2.remove();
-			}
-			}
-			
-			session.beginTransaction();
-			
-			user1.setContactos(contactos);
-			user2.setContactos(contactos2);
-			
-			
-			session.saveOrUpdate(user1);
-			session.saveOrUpdate(user2);
-			
-			session.getTransaction().commit();
-		}
-		catch (Exception e){
-			System.out.println(e);
-		}finally {
-			session.close();
-		}
-		return contactos;
-	}
-	
-	@Override
-	public List<User> readPeticiones(String nickname){
-		List<User> contactos = new ArrayList<>();
+	public List<Peticion> readPeticiones(String nickname){
+		List<Peticion> peticiones = new ArrayList<>();
 		Session session = SessionFactoryService.get().openSession();
 		try {
 			session.beginTransaction();
 			//No sé si la createquery es la correcta
-			contactos.addAll(session.createQuery("select u.myFriends from User u " + 
+			peticiones.addAll(session.createQuery("select u.peticiones from User u " + 
 			"where u.nick = :nick")
 				.setParameter("nick", nickname)
 				.list());
@@ -213,16 +142,16 @@ public class UserDAOImplementation implements UserDAO {
 		}finally {
 			session.close();
 		}
-		return contactos;
+		return peticiones;
 	}
 		@Override
-		public List<User> readMisPeticiones(String nickname){
-			List<User> contactos = new ArrayList<>();
+		public List<Peticion> readMisPeticiones(String nickname){
+			List<Peticion> peticiones = new ArrayList<>();
 			Session session = SessionFactoryService.get().openSession();
 			try {
 				session.beginTransaction();
 				//No sé si la createquery es la correcta
-				contactos.addAll(session.createQuery("select u.myFriends from User u " + 
+				peticiones.addAll(session.createQuery("select u.peticionesPropias from User u " + 
 				"where u.nick = :nick")
 					.setParameter("nick", nickname)
 					.list());
@@ -233,43 +162,9 @@ public class UserDAOImplementation implements UserDAO {
 			}finally {
 				session.close();
 			}
-			return contactos;
+			return peticiones;
 		}
-		@Override
-		public List<User> readContactos(String nickname){
-			List<User> contactos = new ArrayList<>();
-			Session session = SessionFactoryService.get().openSession();
-			try {
-				session.beginTransaction();
-				//No sé si la createquery es la correcta
-				contactos.addAll(session.createQuery("select u.myContacts from User u " + 
-				"where u.nick = :nick")
-					.setParameter("nick", nickname)
-					.list());
-				session.getTransaction().commit();
-			}
-			catch (Exception e){
-				System.out.println(e);
-			}finally {
-				session.close();
-			}
-			return contactos;
-		}
-		public void aceptarContacto (User user1, User user2) {
-			Session session = SessionFactoryService.get().openSession();
-			try {
-				readContactos(user1.getNick());
-				session.beginTransaction();
-				//No sé si la createquery es la correcta
-				
-				session.getTransaction().commit();
-			}
-			catch (Exception e){
-				System.out.println(e);
-			}finally {
-				session.close();
-			}
-				}
+		
 	}
 
 

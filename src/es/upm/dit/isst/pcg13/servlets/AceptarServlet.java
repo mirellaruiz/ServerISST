@@ -13,7 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import es.upm.dit.isst.pcg13.dao.PeticionDAOImplementation;
 import es.upm.dit.isst.pcg13.dao.UserDAOImplementation;
+import es.upm.dit.isst.pcg13.dao.model.Peticion;
 import es.upm.dit.isst.pcg13.dao.model.User;
 
 @WebServlet("/AceptarServlet")
@@ -42,13 +44,23 @@ protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws S
 		if (user1==null || user2==null) {
 			json =new  Gson().toJson("wrong");
 	}
-		else if (action==true) {
-		UserDAOImplementation.getInstance().aceptarContacto(user1, user2); 
-		json =new  Gson().toJson("aceptada");
-	 }
-	 else {
-		 json =new  Gson().toJson("denegada");;
-	 }
+		else {
+			Peticion p = PeticionDAOImplementation.getInstance().getPeticion(user1, user2);
+			if (action == true) {
+				json =new  Gson().toJson("aceptada");
+				 
+				p.setEstado(1);
+				}
+			else {
+				json =new  Gson().toJson("denegada");
+				 
+				p.setEstado(2);
+				
+			}
+			PeticionDAOImplementation.getInstance().updatePeticion(p);
+		
+		}
+	
 	resp.setContentType("application/json");
 	resp.setCharacterEncoding("utf-8");
 

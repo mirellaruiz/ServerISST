@@ -1,7 +1,6 @@
 package es.upm.dit.isst.pcg13.servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,10 +18,8 @@ import es.upm.dit.isst.pcg13.dao.UserDAOImplementation;
 import es.upm.dit.isst.pcg13.dao.model.Peticion;
 import es.upm.dit.isst.pcg13.dao.model.User;
 
-
-@WebServlet("/ContactosServlet")
-public class ContactosServlet extends HttpServlet {
-	
+@WebServlet("/PeticionesServlet")
+public class PeticionesServlet extends HttpServlet {
 @Override
 protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	// TODO Auto-generated method stub
@@ -34,15 +31,10 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
 		//no hacemos nada
 }
 	else {
-		//aceptadas mias
-		for (Peticion p: UserDAOImplementation.getInstance().readMisPeticiones(nick)) {
-			 if (p.getEstado()==1) {
-				 contactos.add(p.getSolicitado());
-			 }
-		 }
-		//aceptadas ajenas
+		
+		//cogemos las que no hemos contstado
 		for (Peticion p: UserDAOImplementation.getInstance().readPeticiones(nick)) {
-			 if ( p.getEstado()==1) {
+			 if ( p.getEstado()==0) {
 				 contactos.add(p.getSolicitante());
 			 }
 		 }
@@ -61,8 +53,6 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
 	json =new  Gson().toJson(jsonA);
 	resp.getWriter().write(json);
 	
+}
 	
-	
-}	
-
 }

@@ -30,8 +30,7 @@ public class User {
 	@OneToMany(mappedBy = "solicitado", fetch = FetchType.EAGER, orphanRemoval=true)//relacion para BBDD, orphan removal para que borre todas las relaciones
 	private List<Peticion> peticiones; 
 	
-	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
-	private List<User> contactos;    
+	    
 
 	
 
@@ -96,13 +95,7 @@ public class User {
 		this.peticiones = peticiones;
 	}
 
-	public List<User> getContactos() {
-		return contactos;
-	}
-
-	public void setContactos(List<User> contactos) {
-		this.contactos = contactos;
-	}
+	
 
 	public List<Valoracion> getValorados() {
 		return valorados;

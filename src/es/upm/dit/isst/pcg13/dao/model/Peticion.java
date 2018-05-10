@@ -52,6 +52,10 @@ public class Peticion{
 		this.estado = estado;
 	}
 
+	public int getEstado() {
+		return estado;
+	}
+
 	
 	
 	

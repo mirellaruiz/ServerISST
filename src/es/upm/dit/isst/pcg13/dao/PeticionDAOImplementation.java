@@ -2,7 +2,10 @@ package es.upm.dit.isst.pcg13.dao;
 
 import org.hibernate.Session;
 
+import es.upm.dit.isst.pcg13.dao.model.Pensamiento;
 import es.upm.dit.isst.pcg13.dao.model.Peticion;
+import es.upm.dit.isst.pcg13.dao.model.User;
+import es.upm.dit.isst.pcg13.dao.model.Valoracion;
 
 public class PeticionDAOImplementation implements PeticionDAO{
 
@@ -29,6 +32,25 @@ public class PeticionDAOImplementation implements PeticionDAO{
 		}
 		
 	}
+	@Override
+	public Peticion getPeticion(User user1, User user2) {
+		Peticion peticion = new Peticion();
+		Session session = SessionFactoryService.get().openSession();//Se abre la sesion
+		try {
+			session.beginTransaction();
+			peticion= (Peticion) session.createQuery("select p from Peticion p where p.solicitante.nick = :nick1 and p.ssolicitado.nick = :nick2").setParameter("nick1", user1.getNick()).setParameter("nick2", user2.getNick()).uniqueResult();
+			session.getTransaction().commit();
+		}
+		catch(Exception e) {
+			
+		} finally {
+			session.close();
+			
+		}
+		return peticion;
+	
+	}
+
 
 	@Override
 	public void deletePeticion(Peticion peticion) {
