@@ -46,9 +46,9 @@ protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws S
 	}
 		else {
 			Peticion p = PeticionDAOImplementation.getInstance().getPeticion(user1, user2);
+			
 			if (action == true) {
 				json =new  Gson().toJson("aceptada");
-				 
 				p.setEstado(1);
 				}
 			else {

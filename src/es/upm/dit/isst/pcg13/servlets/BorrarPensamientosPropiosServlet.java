@@ -1,5 +1,6 @@
 package es.upm.dit.isst.pcg13.servlets;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.List;
 
@@ -22,9 +23,19 @@ import es.upm.dit.isst.pcg13.dao.model.User;
 public class BorrarPensamientosPropiosServlet extends HttpServlet {
 	
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String nickname = req.getParameter("nick");
-		int id = Integer.parseInt(req.getParameter("pensId"));
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		StringBuffer jb = new StringBuffer();
+		  String line = null;
+		  try {
+		    BufferedReader reader = req.getReader();
+		    while ((line = reader.readLine()) != null)
+		      jb.append(line);
+		  } catch (Exception e) { System.out.println("error al parsear peticion"); }
+
+		    JsonObject jsonObject =  new Gson().fromJson(jb.toString(), JsonObject.class);
+
+			String nickname = jsonObject.get("nick").getAsString();
+		int id = jsonObject.get("pensId").getAsInt();
 		User user = UserDAOImplementation.getInstance().getUser(nickname);
 		resp.setContentType("application/json");
 		resp.setCharacterEncoding("utf-8");
